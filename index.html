@@ -377,10 +377,14 @@ async function loginUser() {
     password
   });
 
-  feedback.textContent = error
-    ? "Грешка: " + error.message
-    : "Успешен вход в DJ SHOUT!";
+  
+if (error) {
+  feedback.textContent = "Грешка: " + error.message;
+} else {
+  feedback.textContent = "Успешен вход в DJ SHOUT!";
+  show("home");
 }
+} 
 </script>
 </body>
 </html>
