@@ -95,6 +95,32 @@ small { color: #bdbdd1; }
 </nav>
 
 <main>
+<section id="login" style="display:none">
+  <div class="card">
+    <h2>🔐 Вход</h2>
+    <input type="email" id="loginEmail"
+           placeholder="Имейл">
+    <input type="password" id="loginPassword"
+           placeholder="Парола">
+    <button onclick="loginUser()">Влез</button>
+    <p id="loginFeedback"></p>
+  </div>
+</section>
+
+<section id="register" style="display:none">
+  <div class="card">
+    <h2>📝 Регистрация</h2>
+    <input type="email" id="registerEmail"
+           placeholder="Имейл">
+    <input type="password" id="registerPassword"
+           placeholder="Парола">
+    <button onclick="registerUser()">
+      Регистрирай се
+    </button>
+    <p id="registerFeedback"></p>
+  </div>
+</section>
+
 <section id="home">
 <div class="card">
 <h2>🌍 Избери дискотека</h2>
