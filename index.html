@@ -325,6 +325,48 @@ SUPABASE_KEY
 );
 
 console.log("DJ SHOUT: Supabase client initialized");
+
+async function registerUser() {
+  const email = document.getElementById("registerEmail").value.trim();
+  const password = document.getElementById("registerPassword").value;
+  const feedback = document.getElementById("registerFeedback");
+
+  if (!email || password.length < 6) {
+    feedback.textContent = "Въведи имейл и парола от поне 6 символа.";
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password
+  });
+
+  feedback.textContent = error
+    ? "Грешка: " + error.message
+    : data.session
+      ? "Регистрацията е успешна!"
+      : "Провери имейла си за потвърждение.";
+}
+
+async function loginUser() {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+  const feedback = document.getElementById("loginFeedback");
+
+  if (!email || !password) {
+    feedback.textContent = "Въведи имейл и парола.";
+    return;
+  }
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  feedback.textContent = error
+    ? "Грешка: " + error.message
+    : "Успешен вход в DJ SHOUT!";
+}
 </script>
 </body>
 </html>
