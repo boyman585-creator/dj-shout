@@ -2,111 +2,289 @@
 <html lang="bg">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width, initial-scale=1">
-<title>DJ SHOUT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DJ SHOUT 2.0</title>
 <style>
+* { box-sizing: border-box; }
 body {
 margin: 0;
-font-family: Arial, sans-serif;
-background: #101020;
+background: #0b0b18;
 color: white;
-text-align: center;
+font-family: Arial, sans-serif;
 }
 header {
+text-align: center;
 padding: 35px 15px;
-background: linear-gradient(135deg,#7c3aed,#ec4899);
+background: linear-gradient(135deg,#6725e8,#e52b91);
 }
 h1 { font-size: 42px; margin: 0; }
-main { padding: 20px; }
-.card {
-background: #202039;
-padding: 22px;
-border-radius: 16px;
-margin: 16px auto;
-max-width: 450px;
+header p { color: #f0dfff; }
+nav {
+display: flex;
+gap: 6px;
+padding: 12px;
+overflow-x: auto;
+background: #17172b;
 }
-input, select, button {
-box-sizing: border-box;
-width: 100%;
-padding: 14px;
-margin: 8px 0;
-border-radius: 9px;
-border: none;
-font-size: 16px;
+nav button {
+flex: 1;
+min-width: 90px;
 }
 button {
-background: #a855f7;
+background: #8b40f5;
 color: white;
-font-weight: bold;
+border: 0;
+border-radius: 9px;
+padding: 13px;
 cursor: pointer;
+font-weight: bold;
 }
-.price { color: #facc15; }
-#result { margin-top: 15px; }
+main {
+max-width: 650px;
+margin: auto;
+padding: 16px;
+}
+.card {
+background: #1d1d34;
+padding: 20px;
+border-radius: 15px;
+margin-bottom: 16px;
+}
+input,select,textarea {
+display: block;
+width: 100%;
+padding: 13px;
+margin: 10px 0;
+border: 1px solid #555;
+border-radius: 8px;
+background: #303047;
+color: white;
+font: inherit;
+}
+textarea { min-height: 90px; }
+.full { width: 100%; }
+.price {
+color: #ffdc59;
+font-size: 24px;
+}
+.hidden { display: none; }
+.item {
+border-bottom: 1px solid #444;
+padding: 12px 0;
+overflow-wrap: anywhere;
+}
+small { color: #bdbdd1; }
+.status { color: #78e6aa; }
 </style>
 </head>
 <body>
 <header>
 <h1>🎧 DJ SHOUT</h1>
-<p>Твоето послание. Твоята музика. Твоята вечер.</p>
+<p>Global Nightlife Platform</p>
+<p>Твоята музика. Твоята вечер.</p>
 </header>
 
+<nav>
+<button onclick="show('home')">Начало</button>
+<button onclick="show('request')">Поздрави</button>
+<button onclick="show('vip')">VIP</button>
+<button onclick="show('dj')">DJ панел</button>
+</nav>
+
 <main>
-<section class="card">
-<h2>🎤 Изпрати поздрав</h2>
-<input id="message" placeholder="Напиши своя поздрав">
-<select id="service">
-<option value="10">Поздрав към DJ - 10 €</option>
-<option value="20">Поръчка на песен - 20 €</option>
-<option value="30">Поздрав на голям екран - 30 €</option>
-<option value="40">VIP поздрав - 40 €</option>
+<section id="home">
+<div class="card">
+<h2>🌍 Избери дискотека</h2>
+<select id="club">
+<option value="Club Sofia">Club Sofia</option>
+<option value="Club Plovdiv">Club Plovdiv</option>
+<option value="Club Varna">Club Varna</option>
+<option value="Club Stara Zagora">Club Stara Zagora</option>
 </select>
-<h3 class="price" id="price">Цена: 10 €</h3>
-<button onclick="sendRequest()">Продължи</button>
-<p id="result" role="status"></p>
-</section>
-
-<section class="card">
-<h2>🍾 VIP резервации</h2>
-<p>Резервирай VIP маса в любимия си клуб.</p>
-<button onclick="showComingSoon()">
-Разгледай VIP маси
+<small>Дискотеките са примерни.</small>
+<p>Избери клуб и изпрати своя поздрав.</p>
+<button class="full" onclick="show('request')">
+Продължи
 </button>
-</section>
-
-<section class="card">
+</div>
+<div class="card">
 <h2>🎉 Събития</h2>
-<p>Открий DJ участия, изпълнители и промоции.</p>
-<button onclick="showComingSoon()">
-Виж събития
+<p>Предстоящите участия и промоции ще се появяват тук.</p>
+</div>
+</section>
+
+<section id="request" class="hidden">
+<div class="card">
+<h2>🎤 Изпрати заявка</h2>
+<input id="customer" placeholder="Твоето име">
+<select id="type" onchange="updatePrice()">
+<option value="10">Поздрав — 10 €</option>
+<option value="20">Поръчка на песен — 20 €</option>
+<option value="30">Поздрав на екран — 30 €</option>
+<option value="40">VIP поздрав — 40 €</option>
+</select>
+<input id="song" placeholder="Изпълнител и песен (по желание)">
+<textarea id="message" placeholder="Твоят поздрав"></textarea>
+<p class="price" id="price">10 €</p>
+<button class="full" onclick="sendRequest()">
+Изпрати демо заявка
 </button>
+<p id="feedback" role="status"></p>
+</div>
+</section>
+
+<section id="vip" class="hidden">
+<div class="card">
+<h2>🍾 VIP резервации</h2>
+<p>Клуб: <span id="vipClub"></span></p>
+<input type="date" id="vipDate">
+<input type="number" id="vipGuests"
+min="1" max="30" placeholder="Брой гости">
+<button class="full" onclick="vipRequest()">
+Провери заявката
+</button>
+<p id="vipFeedback" role="status"></p>
+<small>Няма реално запазване на маса.</small>
+</div>
+</section>
+
+<section id="dj" class="hidden">
+<div class="card">
+<h2>🎧 DJ панел — демо</h2>
+<p>Заявките се пазят само в този браузър.</p>
+<button onclick="renderRequests()">Обнови</button>
+<div id="requests"></div>
+</div>
 </section>
 </main>
 
 <script>
-const service = document.getElementById("service");
-const price = document.getElementById("price");
-const result = document.getElementById("result");
+const sections = ["home","request","vip","dj"];
+const storageKey = "djshout-demo-requests";
 
-service.addEventListener("change", () => {
-price.textContent = "Цена: " + service.value + " €";
+function show(id) {
+sections.forEach(s => {
+document.getElementById(s).classList.toggle(
+"hidden", s !== id
+);
 });
+document.getElementById("vipClub").textContent =
+document.getElementById("club").value;
+if (id === "dj") renderRequests();
+}
+
+function updatePrice() {
+document.getElementById("price").textContent =
+document.getElementById("type").value + " €";
+}
+
+function getRequests() {
+try {
+return JSON.parse(localStorage.getItem(storageKey)) || [];
+} catch {
+return [];
+}
+}
 
 function sendRequest() {
+const name = document.getElementById("customer").value.trim();
 const message = document.getElementById("message").value.trim();
-if (!message) {
-result.textContent = "Моля, напиши поздрав.";
+const song = document.getElementById("song").value.trim();
+const type = document.getElementById("type");
+const feedback = document.getElementById("feedback");
+
+if (!name || (!message && !song)) {
+feedback.textContent =
+"Попълни име и поздрав или песен.";
 return;
 }
-result.textContent =
-"Демо заявка: " + message +
-". Цена: " + service.value +
-" €. Все още няма реално плащане.";
+
+const requests = getRequests();
+requests.push({
+id: Date.now().toString(),
+club: document.getElementById("club").value,
+name,
+message,
+song,
+service: type.options[type.selectedIndex].text,
+status: "Чакаща демо заявка"
+});
+
+try {
+localStorage.setItem(storageKey, JSON.stringify(requests));
+feedback.textContent =
+"Демо заявката е записана. Не е извършено плащане.";
+} catch {
+feedback.textContent = "Грешка при записването.";
+}
 }
 
-function showComingSoon() {
-alert("Тази функция предстои да бъде разработена.");
+function renderRequests() {
+const container = document.getElementById("requests");
+container.replaceChildren();
+const requests = getRequests();
+
+if (!requests.length) {
+container.textContent = "Все още няма заявки.";
+return;
 }
+
+requests.forEach(r => {
+const item = document.createElement("div");
+item.className = "item";
+
+const info = document.createElement("p");
+info.textContent =
+r.club + " | " + r.name + " | " + r.service +
+" | Песен: " + (r.song || "Няма") +
+" | Поздрав: " + (r.message || "Няма");
+
+const status = document.createElement("p");
+status.className = "status";
+status.textContent = r.status;
+
+const accept = document.createElement("button");
+accept.textContent = "Приеми";
+accept.onclick = () => changeStatus(r.id, "Приета");
+
+const reject = document.createElement("button");
+reject.textContent = "Откажи";
+reject.style.marginLeft = "8px";
+reject.onclick = () => changeStatus(r.id, "Отказана");
+
+item.append(info, status, accept, reject);
+container.appendChild(item);
+});
+}
+
+function changeStatus(id, status) {
+const requests = getRequests();
+const request = requests.find(r => r.id === id);
+if (request) {
+request.status = status;
+localStorage.setItem(storageKey, JSON.stringify(requests));
+}
+renderRequests();
+}
+
+function vipRequest() {
+const date = document.getElementById("vipDate").value;
+const guests = Number(document.getElementById("vipGuests").value);
+const feedback = document.getElementById("vipFeedback");
+
+if (!date || guests < 1 || guests > 30) {
+feedback.textContent = "Избери дата и брой гости от 1 до 30.";
+return;
+}
+
+feedback.textContent =
+"Демо запитване за " + guests +
+" гости на " + date +
+". Няма потвърдена резервация.";
+}
+
+show("home");
 </script>
 </body>
 </html>
+
