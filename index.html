@@ -191,16 +191,30 @@ min="1" max="30" placeholder="Брой гости">
 const sections = ["home","request","vip","dj"];
 const storageKey = "djshout-demo-requests";
 
+
 function show(id) {
-sections.forEach(s => {
-document.getElementById(s).classList.toggle(
-"hidden", s !== id
-);
-});
-document.getElementById("vipClub").textContent =
-document.getElementById("club").value;
-if (id === "dj") renderRequests();
+  const ids = ["home", "request", "vip", "dj", "login", "register"];
+
+  ids.forEach(sectionId => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.classList.toggle("hidden", sectionId !== id);
+      section.style.display = sectionId === id ? "block" : "none";
+    }
+  });
+
+  const vipClub = document.getElementById("vipClub");
+  const club = document.getElementById("club");
+
+  if (vipClub && club) {
+    vipClub.textContent = club.value;
+  }
+
+  if (id === "dj") {
+    renderRequests();
+  }
 }
+
 
 function updatePrice() {
 document.getElementById("price").textContent =
